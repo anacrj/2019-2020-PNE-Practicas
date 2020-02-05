@@ -6,7 +6,7 @@
 
 res = 0
 
-for i in range (1, 21):
+for i in range(1, 21):
     res += i
 
-print ("Total sum: ", res)
+print("Total sum: ", res)
