@@ -13,4 +13,4 @@ length_sequence = len(seq_dna)
 
 print(length_sequence)
 
-# -- El resultado me da 33948 y no 33913 porque hay un comentario añadido en ADA, si lo quito me da bien
+# -- El resultado me da 33948 y no 33912 porque hay un comentario añadido en ADA, si lo quito me da bien
