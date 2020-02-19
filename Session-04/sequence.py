@@ -5,11 +5,12 @@ FILENAME = "ADA.txt"
 
 # -- Open and read the file
 file_contents = Path(FILENAME).read_text()
-f = file_contents.split("\n")
-chain = ''.join(f[1::])
-letterA = "A"
-letterT = "T"
-letterC = "C"
-letterG = "G"
+seq_dna = file_contents
+index_finish = seq_dna.find("\n")
+seq_dna = seq_dna[index_finish + 1:]
+seq_dna = seq_dna.replace("\n", "")
+length_sequence = len(seq_dna)
 
-print("Total:", chain.count(letterA) + chain.count(letterT) + chain.count(letterC) + chain.count(letterG))
+print(length_sequence)
+
+# -- El resultado me da 33948 y no 33913 porque hay un comentario añadido en ADA, si lo quito me da bien
