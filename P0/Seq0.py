@@ -15,6 +15,12 @@ def seq_read_fasta(filename):
 def seq_len(filename):
     return len(filename)
 
+# Exercise 4: seq_count_base()
+def seq_count_base(seq, base):
+    return seq.count(base)
+
+# Exercise 5: seq_count()
+
 
 
 
