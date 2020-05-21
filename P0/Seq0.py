@@ -20,7 +20,7 @@ def seq_count_base(seq, base):
     return seq.count(base)
 
 # Exercise 5: seq_count()
-
+def seq_count
 
 
 
