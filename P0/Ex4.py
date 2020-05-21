@@ -12,6 +12,6 @@ print("---Exercise 4---")
 
 for element in list_genes:
     seq = seq_read_fasta(FOLDER + element)
-    print("Genes:", element)
-    for base in bases:
-        print(base, ":", seq_count_base(seq, base))
+    print("Gene:", element)
+    for letter in bases:
+        print(letter, ":", seq_count_base(seq, letter))
