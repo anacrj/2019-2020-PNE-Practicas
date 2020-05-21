@@ -11,6 +11,11 @@ def seq_read_fasta(filename):
     chain = "\n".join(f[1:])
     return chain
 
+# Exercise 3: seq_len()
+def seq_len(filename):
+    return len(filename)
+
+
 
 
 
