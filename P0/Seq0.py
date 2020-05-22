@@ -20,7 +20,25 @@ def seq_count_base(seq, base):
     return seq.count(base)
 
 # Exercise 5: seq_count()
-def seq_count
+def seq_count(seq):
+    dictionary = {'A': seq_count_base(seq, 'A'), 'T': seq_count_base(seq, 'T'),
+                  'C': seq_count_base(seq, 'C'), 'G': seq_count_base(seq, 'G')}
+    return dictionary
+
+# Exercise 6: seq_reverse()
+def seq_reverse(seq):
+    return seq[::-1]
+
+# Exercise 7: seq_complement()
+def seq_complement(seq):
+    dict_bases = {"A": "T", "T": "A", "C": "G", "G": "C"}
+    seq_comp = ""
+    for base in seq:
+        seq_comp = seq_comp + dict_bases[base]
+    return seq_comp
+
+
+
 
 
 
