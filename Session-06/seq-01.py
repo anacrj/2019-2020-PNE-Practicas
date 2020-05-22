@@ -1,19 +1,19 @@
 class Seq:
     """"A class for representing sequence objects"""
-    def __init__(self, strbases):   #esto se usa para iniciar el object
-        self.strbases = strbases
-        print ("New sequence created!")
-    def __str__(self):
-        return self.strbases
 
-    def len(self):
+    def __init__(self, strbases):  # esto se usa para iniciar el object
+        self.strbases = strbases  # Initialize the sequence with the value passed as argument when creating the object
+        print("New sequence created!")
+
+    def __str__(self):  # Method called when the object is being printed
+        return self.strbases  # We just return the string with the sequence
+
+    def len(self):      # Calculate the length of the sequence
         return len(self.strbases)
 
+
 class Gene(Seq):
-
-
-    pass # con esto indicamos que no hay nada en ese class
-
+    pass  # con esto indicamos que no hay nada en ese class
 
 
 # -- Main program
