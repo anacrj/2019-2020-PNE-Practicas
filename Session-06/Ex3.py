@@ -17,14 +17,17 @@ class Seq:
     def len(self):
         return len(self.strbases)
 
+    def print_seqs(sequence):
+        for seq in sequence:
+            print(f"Sequence {sequence.index(seq)}: (Length: {seq.len()}) {seq}")
 
 # -- Main program
-seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
+seq_list1 = generate_seqs("A", 3)
+seq_list2 = generate_seqs("AC", 5)
 
+print("List 1:")
+print_seqs(seq_list1)
 
-def print_seqs(sequence):
-    for seq in sequence:
-        print("Sequence", sequence.index(seq), ":", "(Length:", seq.len(), ")", seq)
-
-
-print_seqs(seq_list)
+print()
+print("List 2:")
+print_seqs(seq_list2)
