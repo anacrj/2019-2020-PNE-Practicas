@@ -18,13 +18,11 @@ class Seq:
         return len(self.strbases)
 
 
-# -- Main program
-seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
-
-
 def print_seqs(sequence):
     for seq in sequence:
         print("Sequence", sequence.index(seq), ":", "(Length:", seq.len(), ")", seq)
 
 
+# -- Main program
+seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
 print_seqs(seq_list)
