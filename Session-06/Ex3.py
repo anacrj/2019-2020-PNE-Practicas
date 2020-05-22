@@ -17,9 +17,24 @@ class Seq:
     def len(self):
         return len(self.strbases)
 
-    def print_seqs(sequence):
-        for seq in sequence:
-            print(f"Sequence {sequence.index(seq)}: (Length: {seq.len()}) {seq}")
+
+def print_seqs(sequence):
+    for seq in sequence:
+        print("Sequence", sequence.index(seq), ":", "(Length:", seq.len(), ")", seq)
+
+
+def generate_seqs(pattern, number):
+    new_seq = []
+    i = 0
+    can_continue = True
+    while can_continue:
+        if i == number:
+            can_continue = False
+        else:
+            new_seq.append(Seq(pattern * (i + 1)))
+            i = i + 1
+    return new_seq
+
 
 # -- Main program
 seq_list1 = generate_seqs("A", 3)
