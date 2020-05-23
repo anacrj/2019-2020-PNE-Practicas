@@ -7,7 +7,7 @@ IP = "192.168.124.179"
 
 while True:
     # -- Ask the user for a message
-    m = input("Message to send: ")
+    message = input("Message to send: ")
 
     # -- Create the socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,7 +16,7 @@ while True:
     s.connect((IP, PORT))
 
     # Send data
-    s.send(str.encode(m))
+    s.send(str.encode(message))     # We can not send strings (only bytes). We have to encode the string into bytes
 
     # Closing the socket
     s.close()
