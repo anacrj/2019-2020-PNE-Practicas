@@ -58,6 +58,9 @@ class Seq:
             comp_sequence = comp_sequence + dictionary[element]
         return comp_sequence
 
+    def perc (self,base):
+        return round((float(self.count(base))/float(self.len())) * 100, 1)
+
     def read_fasta(self, filename):
         file_contents = Path(filename).read_text()
         body = file_contents.split('\n')[1:]         # Remove the head
