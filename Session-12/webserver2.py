@@ -42,7 +42,7 @@ def process_client(s):
         <h1>GREEN SERVER</h1>
         <p>I am the Green Server! :-)</p>
         <p>This is another paragraph </p>
-        <h2> Header 2 </h2>
+        <h2>Header 2 </h2>
       </body>
     </html>
     """
