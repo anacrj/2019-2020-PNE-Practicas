@@ -4,7 +4,7 @@ from pathlib import Path
 class Seq:
 
     def __init__(self, strbases="NULL"):
-        if strbases == "NULL":            # ver si es null_sequence
+        if strbases == "NULL":
             self.strbases = "NULL"
             print("NULL Sequence created")
             return
