@@ -20,4 +20,5 @@ s = Seq().read_fasta(FOLDER + FILENAME)
 # -- Send the Gene
 c.debug_talk(f"Sending ¨{FILENAME} Gene to the server...")
 c.debug_talk(str(s))
+
 # First we have to launch the Teacher's server of Session-08 (server.py). Then execute the EX3.py program.

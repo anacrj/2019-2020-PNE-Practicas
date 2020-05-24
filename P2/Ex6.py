@@ -29,4 +29,5 @@ for i in range(5):
 
     print(f"Fragment {i + 1}: {fragment}")
     c.talk(f"Fragment {i + 1}: {fragment}")
+
 # First we have to launch the Teacher's server of Session-08 (server.py). Then execute the EX3.py program.

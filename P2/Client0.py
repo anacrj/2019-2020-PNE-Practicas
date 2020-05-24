@@ -41,3 +41,4 @@ class Client:
         termcolor.cprint(from_server, "green")
 
         return from_server
+

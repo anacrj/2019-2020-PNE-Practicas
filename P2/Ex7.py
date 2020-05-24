@@ -38,3 +38,4 @@ for i in range(10):
         c2.talk(mes2)
     else:
         c1.talk(mes)
+

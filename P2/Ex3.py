@@ -17,5 +17,4 @@ print(c)
 print("Sending a message to the server...")
 response = c.talk("Testing!!!")
 print(f"Response: {response}")
-
 # First we have to launch the Teacher's server of Session-08 (server.py). Then execute the EX3.py program.

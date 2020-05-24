@@ -16,4 +16,5 @@ print(c)
 # -- Send a message to the server
 c.debug_talk("Message 1---")
 c.debug_talk("Message 2: Testing !!!")
+
 # First we have to launch the Teacher's server of Session-08 (server.py). Then execute the EX3.py program.
