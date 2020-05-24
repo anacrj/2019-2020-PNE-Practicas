@@ -1,59 +1,122 @@
 import socket
 
 import termcolor
+from Seq1 import Seq
 
-IP = "127.0.0.1"  # local machines, asi no tienes que ir cambiando el IP
+IP = "127.0.0.1"
 PORT = 8080
-# Step 1: creating the socket for comunicating
+
+seq_get = ["ACTGAACTTGACCTACGGTCA","TTCGACCGGAAGTCCAATTTG","CCTAGGAACTTTGACGTAACT","ACGTCAGCTAGTGCTAACGTA","ATTGCTAAGGTTCTGAGTACT"]
+
+FOLDER = "../Session-04/"
+FILENAME1 = "U5.txt"
+FILENAME2 = "ADA.txt"
+FILENAME3 = "FRAT1.txt"
+FILENAME4 = "FXN.txt"
+FILENAME5 = "RNU6_269P.txt"
+list_genes = [FILENAME1, FILENAME2, FILENAME3, FILENAME4, FILENAME5]
+
+
+# --- 1) Step 1: Creating the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# --- 2) Step 2: Bind the socket to the server's IP and PORT
+ls.bind((IP, PORT))
 
 # -- Optional: This is for avoiding the problem of Port already in use
 ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-# Step 2: Bind the socket to the server's IP and PORT
-ls.bind((IP, PORT))
-
-# Step 3: Convert into a listening socket
+# --- 3) Step 3: Convert into a listening socket
 ls.listen()
+
+
+def get_function(n):
+    return seq_get[n]
+
+
+def info_function(strseq):
+    s = Seq(strseq)
+    l = s.len()
+    ac = s.count_base("A")
+    tc = s.count_base("T")
+    cc = s.count_base("C")
+    gc = s.count_base("G")
+    response = f"""Sequence: {s}
+    Total length: {l}
+    A: {ac} ({round((ac/l)*100)})%  
+    C: {cc} ({round((cc/l)*100)})%     
+    T: {tc} ({round((tc/l)*100)})%     
+    G: {gc} ({round((gc/l)*100)})%"""
+    return response
+
+
+def complement_function(strseq):
+    s = Seq(strseq)            # Create the object sequence from the string
+    return s.complement()
+
+
+def reverse_function(strseq):
+    s = Seq(strseq)            # Create the object sequence from the string
+    return s.seq_reverse()
+
+
+def gene_function(name):
+    s = Seq()
+    s.read_fasta(FOLDER + name)
+    return str(s)
+
 
 print("Server is configured!")
 
-list_response = ["AGCGTA", "CTATGC", "GGATCG", "TGTAAA", "GGGTT"]
 
 while True:
-
+    print("Waiting for clients....")
     try:
-        # Step 4: Wait for client to connect
         (cs, client_ip_port) = ls.accept()
-
     except KeyboardInterrupt:
-        print("Server is done!")
+        print("Server Stopped!")
         ls.close()
         exit()
-
     else:
 
-        # Step 5: Receiving information from the client
-        msg_raw = cs.recv(2000)
-        msg = msg_raw.decode()
-        # space = msg.split("\n")[0].split(" ")
-        # command1 = space[0]
+        req_raw = cs.recv(2000)
+        req = req_raw.decode()
+        lines = req.split("\n")             # Remove the \n
+        line0 = lines[0].strip()
+        lfunct = line0.split(' ')                 # Separate the line into command an argument
+
+        function = lfunct[0]                           # The first element is the command
+
+        try:
+            arg = lfunct[1]
+        except IndexError:
+            arg = ""
         response = ""
-        command2 = msg[1]
 
-        if msg == "PING":
-            response = "OK!\n"
+        if function == "PING":
+            termcolor.cprint("PING command!", 'green')
+            response = "OK!"
+        elif function == "GET":
+            termcolor.cprint("GET", 'green')
+            response = get_function(int(arg))
+        elif function == "INFO":
+            termcolor.cprint("INFO", 'green')
+            response = info_function(arg)
+        elif function == "COMP":
+            termcolor.cprint("COMP", 'green')
+            response = complement_function(arg)
+        elif function == "REV":
+            termcolor.cprint("REV", 'green')
+            response = reverse_function(arg)
+        elif function == "GENE":
+            termcolor.cprint("GENE", 'green')
+            response = gene_function(arg)
+        else:
+            termcolor.cprint("Unknown command!!!", 'red')
+            response = "Unkwnown command"
 
-        termcolor.cprint("PING command!", "green")
+        # Send the response message
+        response = response + '\n'
         print(response)
-
-        # for i in range(list_response):
-        elif "GET" in msg:
-        seq_get = int(msg[msg.find(" ") + 1:])  # Seq_get es el número del 0-4 que introduce en la terminal
-        response = list_response[seq_get]
-
-    # Info command
-    elif "INFO" in msg:
-
-    cs.send(response.encode())
-    cs.close()
+        cs.send(response.encode())
+        cs.close()
