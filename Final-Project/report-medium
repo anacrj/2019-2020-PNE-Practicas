@@ -1,0 +1,204 @@
+---------------->>>> genSeq endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneSeq?gene=FRAT1
+
+* OUTPUT:
+
+ <html>
+<head>
+ <meta charset="utf-8">
+ <title>Sequence of the gene</title>
+</head>
+<body style ="background-color: lightgreen;">
+<font face="garamond"  color = "black"</font>
+<h2>This is the sequence of the human gene requested:</h2>
+<ul> <ul>CGGCTCCCGCGGCTGCAGGCGCGCGGCTAGAGTGCCTGGCGGGCTCCGGCTTCCGCGTCCGCCCCGGCCCCGGTCCAGACTTAGTCTTCAGCTCCGCGCCCGCTCCGCCGCGGCCCACCGCGCCCGCCGGCAGCCGAGCCCCCAGCGACGCCCGCACAGCTCCGGGTGCCCAGACAGGGGGCCATGCCGTGCCGGAGGGAGGAGGAAGAGGAAGCCGGCGAGGAGGCGGAGGGGGAGGAAGAGGAGGAGGACAGCTTCCTCCTACTGCAGCAGTCAGTGGCGCTGGGCAGCTCGGGCGAGGTGGACCGGCTGGTGGCCCAGATCGGCGAGACGCTGCAGCTGGACGCGGCGCAGCACAGCCCGGCCTCGCCGTGCGGGCCCCCGGGGGCGCCGCTGCGGGCCCCGGGGCCCCTGGCTGCGGCGGTGCCGGCGGACAAGGCCAGGTCCCCGGCGGTGCCGCTGCTGCTGCCGCCCGCGTTGGCGGAGACTGTGGGCCCGGCGCCCCCTGGGGTCCTGCGCTGCGCCCTGGGGGACCGCGGCCGCGTGCGGGGCCGCGCTGCGCCCTACTGCGTGGCCGAGCTCGCCACAGGCCCCAGCGCGCTGTCCCCACTGCCCCCTCAGGCCGACCTTGATGGGCCTCCGGGAGCTGGCAAGCAGGGCATCCCGCAGCCGCTGTCGGGTCCGTGCCGGCGAGGATGGCTCCGGGGCGCCGCCGCCTCCCGCCGCCTGCAGCAGCGACGCGGGTCCCAACCAGAAACCCGCACAGGCGACGACGACCCGCACCGGCTTCTGCAGCAGCTAGTGCTCTCTGGAAACCTCATCAAGGAGGCCGTGCGAAGGCTTCATTCGCGACGGCTGCAGTTACGTGCAAAGCTTCCCCAACGCCCGCTCCTGGGACCTCTGTCGGCCCCGGTGCATGAACCCCCTTCGCCTCGCAGCCCTCGCGCGGCCTGCAGTGACCCTGGCGCCTCCGGGAGGGCGCAGCTCAGAACTGGCGACGGCGTTCTTGTGCCTGGCAGCTAACACGCCCGGGGTGGCCACAGCGCCAGCCTCAGACTGGAGGGCAAGGGGTTCCCTTGAGGGCTGCAGTTCTACTCAGGCTGGTGGAGAACTCTGGCTTTTGGAAGCGAGAGTAAAAAGCTAATGACGAGGAACCGAAAAATCGCGAGTGTTTCGCGGGTAACTGGGGTTGAGGGCCAAAATATTTGGAATGAAGGACTTTGGCCCTATTTAAGGCAGATTTTACAGAGCGCACCTCAAACGTACAAGTCAGTAGGACTCCTTATTTGGCGTGACCCGACCTGGCCGCGGAGCCTGCATTTCCTCGCAGCCTCTCAGTGCCCTCCAGCCCCGCGACCATGTGGCCACAATCCACGCTTCTCCGGATCGCGGTGCGCCGGAACCACGGAGGATGATGCCAGTTACTTGCTTTACCTTTTCAGGGCTGGCTCCTGATCCACTTTGGGGGAGGAGAACATGAGTAGATAATTTCAGGGTGCAGCCCAATCTGCCAGACTTAAAAAAACCATCTTGTGTCTTTGGAGGTGCTGCTTAATACCAAACATGCGGTGCCATGAAGGGACCCTTTGGGGGTTGAATAGGAGTTAACCCCTGCGCTCTCTTTGCAACTGTCTCTCTTCTCAGAGTGGTGGGGGAAGGCTGTACGACACGGGTGGGGAAAGGAGGTGGGGGCGGGGAGTATTGAATGGTGGTGGAAGGGTAGAGAGGCGCGGAGTGAACCCCACGCCCTGTCTAAAGTGTATTTTCAGAGCCGGCCCGCCTCTCCTCGGTTCAAGGTCACTGTTTCCTGGGCACGCACTGGGTTGCGGGACAGAGTAGCCAGGTTCTGCCGGTGCTCGGAGAAGAGCGCAGTGTTTTGCAAGTGCTGGAGTCTCCTGAGGACACGCGCGTCGCCGCCACCGCGGGTGTGGGAAAGCGCGGACGTGCTGGGCGGCTGTGCTTCGGTAGGCGACCACCGCCCCTGGCCGCGCTCCGGGCTTTCACGGAAACTCCCGAGACCGGGCCCTGGGTTCCTCCTCTCCTACTCGGCTCTGCAGTCCTACTCAAGCGGGTGGCTCTGGGATCCTGGGGGCCTGGGTTGGGGGCTAGGGAGACGCCATGTGATGGACACTCCAGGGACACACAGCCTAGCACAGCAGCTTATAATGGGCTCTCCGGGGCCATTTGCAATAACAGCTGCAATTCCCTGGATAGACGAGTTGATTTCCTCCCTCTGCCCCTCCCCCAGCCATGCCAGCTGGCCTTTGTAAGTGCAGGAAACCGAGTAGAAAATGTGACCCTCCAAATGGAGAAGCTGCAGGCTTTGCCATTGTGAACCATGGTGAAGTGCTTGGAACATACTGTTCACTCACTCTAAAGGCGCTGAGACTGTGCTGTTGTTCTCGTTTTTATAGTCAATGGCTTGTTCATCATCCAGATGTGGCTACTGACATATCTACACTTCGCACCGGAGTGTCTGGAATTGTGGCTATCCTGATTATAGGATTTTAACTTAACTGAAATGCCTGCTTTGAATAAATGTGTTGGGTTTTTTGTTTGGTTTTATTTTATACTTGCCATCAGTGAAAAAGATGTACAGAACACATTTCTCTGATCTCCATAAACATGAAAACACTTGAAATCTC<ul></ul>
+</body>
+</html>
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneSeq?gene=10
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+---------------->>>> genInfo endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneInfo?gene=FRAT1
+
+* OUTPUT:
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Human gene information</title>
+</head>
+<body style ="background-color: lightyellow;">
+<font face="garamond" size = 5 color = "black"</font>
+<h3>Information about the human gene requested:</h3>
+<ul> <h4>Id: <h4><li>ENSG00000165879</li><h4>Start: <h4><li>97319271</li><h4>End: <h4><li>97321915</li><h4>Length: <h4><li>2644</li><h4>Chromosome: <h4><li>GRCh38</li></ul>
+</body>
+</html>
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneInfo?gene=11
+
+* OUTPUT:
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>
+
+
+---------------->>>> geneCalc endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneCalc?gene=FRAT1
+
+* OUTPUT:
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Calculations</title>
+</head>
+<body style ="background-color: lightgreen;">
+<font face="garamond" size = 5 color = "black"</font>
+<h2>Calculations about the human gene:</h2>
+<ul> <h3>Lenght: <h4><li>2645</li><h4>Percentage of A: <h4><li>18.0</li><h4>Percenatge of T: <h4><li>19.7</li><h4>Percenatge of G:
+<h4><li>32.1</li><h4>Percenatge of C: <h4><li>30.2</li></ul>
+</body>
+</html>
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneCalc?gene=10
+
+* OUTPUT:
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>
+
+
+---------------->>>> geneList endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=7&start=3&end=30000
+
+* OUTPUT:
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gene information</title>
+</head>
+<body style ="background-color: lightgrey;">
+<font face="garamond"  color = "black"</font>
+<h2>Name, start and end of the genes located in the desired chromosome:</h2>
+<ul> <li>AC215522.3 Start: 12704 End: 27234</li><li>AC215522.2 Start: 19018 End: 35489</li></ul>
+</body>
+</html>
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=&start=3&end=30000
+
+* OUTPUT:
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>
+
+
+* TEST 3
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=hi&start=&end=30
+
+* OUTPUT:
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>

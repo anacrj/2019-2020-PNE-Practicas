@@ -1,0 +1,298 @@
+------------------->>>>>>>>>> JSON
+
+
+------------>>>> listSpecies endpoint
+
+* TEST 1:
+----------
+
+* INPUT:
+
+http://127.0.0.1:8080/listSpecies?limit=10&json=1
+
+* OUTPUT:
+[{"taxon_id": "9978", "groups": ["core"], "accession": null, "strain": null, "name": "ochotona_princeps", "display_name": "Pika", "common_name": "American pika", "strain_collection": null, "aliases": ["9978", "opri", "ochotona princeps", "ochpri", "american pika", "oprinceps", "pika"], "release": 100, "assembly": "OchPri2.0-Ens", "division": "EnsemblVertebrates"}, {"aliases": [], "strain_collection": null, "release": 100, "assembly": "ASM69896v1", "division": "EnsemblVertebrates", "display_name": "African ostrich", "common_name": "African ostrich", "accession": "GCA_000698965.1", "strain": null, "name": "struthio_camelus_australis", "taxon_id": "441894", "groups": ["otherfeatures", "rnaseq", "core"]}, {"taxon_id": "8128", "groups": ["otherfeatures", "rnaseq", "core"], "strain": null, "name": "oreochromis_niloticus", "accession": "GCA_001858045.3", "display_name": "Nile tilapia", "common_name": "Nile tilapia", "assembly": "O_niloticus_UMD_NMBU", "release": 100, "division": "EnsemblVertebrates", "aliases": [], "strain_collection": null}, {"accession": "GCA_001660625.1", "name": "ictalurus_punctatus", "strain": null, "groups": ["core", "funcgen", "rnaseq", "otherfeatures"], "taxon_id": "7998", "strain_collection": null, "aliases": [], "division": "EnsemblVertebrates", "release": 100, "assembly": "IpCoco_1.2", "common_name": "channel catfish", "display_name": "Channel catfish"}, {"accession": "GCA_007922175.1", "name": "pelusios_castaneus", "strain": null, "groups": ["core", "rnaseq"], "taxon_id": "367368", "strain_collection": null, "aliases": [], "division": "EnsemblVertebrates", "release": 100, "assembly": "Pelusios_castaneus-1.0", "common_name": "West African mud turtle", "display_name": "West African mud turtle"}, {"display_name": "Channel bull blenny", "common_name": "channel bull blenny", "release": 100, "assembly": "fCotGob3.1", "division": "EnsemblVertebrates", "aliases": [], "strain_collection": null, "taxon_id": "56716", "groups": ["rnaseq", "otherfeatures", "core"], "strain": null, "name": "cottoperca_gobio", "accession": "GCA_900634415.1"}, {"taxon_id": "9531", "groups": ["funcgen", "rnaseq", "otherfeatures", "core"], "accession": "GCA_000955945.1", "strain": null, "name": "cercocebus_atys", "common_name": "Sooty mangabey", "display_name": "Sooty mangabey", "strain_collection": null, "aliases": [], "release": 100, "assembly": "Caty_1.0", "division": "EnsemblVertebrates"}, {"aliases": ["bottlenosed dolphin", "bottlenose dolphin", "ttruncatus", "9739", "tursiops truncatus", "turtru", "dolphin", "tursiopstruncatus", "ttru"], "strain_collection": null, "division": "EnsemblVertebrates", "assembly": "turTru1", "release": 100, "common_name": "bottlenosed dolphin", "display_name": "Dolphin", "accession": null, "name": "tursiops_truncatus", "strain": null, "groups": ["core"], "taxon_id": "9739"}, {"accession": "GCA_000230445.1", "strain": null, "name": "heterocephalus_glaber_male", "taxon_id": "10181", "groups": ["core", "otherfeatures", "rnaseq"], "strain_collection": null, "aliases": ["naked mole-rat", "hgla", "10181", "naked mole-rat male", "hetgla", "heterocephalus glaber male", "hglaber_male"], "release": 100, "assembly": "HetGla_1.0", "division": "EnsemblVertebrates", "display_name": "Naked mole-rat male", "common_name": "naked mole-rat"}]
+
+
+
+---------------->>>> karyotype endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/karyotype?specie=mouse&json=1
+
+*OUTPUT
+
+["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "X", "Y", "MT"]
+
+* TEST 2
+---------
+
+* INPUT:
+
+http://127.0.0.1:8080/karyotype?specie=hello&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>
+
+
+* TEST 3
+---------
+
+* INPUT:
+
+http://127.0.0.1:8080/karyotype?specie=&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Error</title>
+</head>
+<body style ='background-color: red'>
+    <h1>ERROR</h1>
+<h3>DATA ERROR SERVER</h3>
+<p>The data you have entered does not exist in the Ensembl.</p>
+<p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+</body>
+</html>
+
+
+---------------->>>> chromosomeLength endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/chromosomeLength?specie=mouse&chromo=MT&json=1
+
+* OUTPUT:
+{"len": 16299}
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/chromosomeLength?specie=hello&chromo=&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+* TEST 3
+---------
+
+* INPUT:
+http://127.0.0.1:8080/chromosomeLength?specie=&chromo=18&json=1
+
+* OUTPUT:
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+---------------->>>> genSeq endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneSeq?gene=FRAT1&json=1
+
+* OUTPUT:
+{"seq": "CGGCTCCCGCGGCTGCAGGCGCGCGGCTAGAGTGCCTGGCGGGCTCCGGCTTCCGCGTCCGCCCCGGCCCCGGTCCAGACTTAGTCTTCAGCTCCGCGCCCGCTCCGCCGCGGCCCACCGCGCCCGCCGGCAGCCGAGCCCCCAGCGACGCCCGCACAGCTCCGGGTGCCCAGACAGGGGGCCATGCCGTGCCGGAGGGAGGAGGAAGAGGAAGCCGGCGAGGAGGCGGAGGGGGAGGAAGAGGAGGAGGACAGCTTCCTCCTACTGCAGCAGTCAGTGGCGCTGGGCAGCTCGGGCGAGGTGGACCGGCTGGTGGCCCAGATCGGCGAGACGCTGCAGCTGGACGCGGCGCAGCACAGCCCGGCCTCGCCGTGCGGGCCCCCGGGGGCGCCGCTGCGGGCCCCGGGGCCCCTGGCTGCGGCGGTGCCGGCGGACAAGGCCAGGTCCCCGGCGGTGCCGCTGCTGCTGCCGCCCGCGTTGGCGGAGACTGTGGGCCCGGCGCCCCCTGGGGTCCTGCGCTGCGCCCTGGGGGACCGCGGCCGCGTGCGGGGCCGCGCTGCGCCCTACTGCGTGGCCGAGCTCGCCACAGGCCCCAGCGCGCTGTCCCCACTGCCCCCTCAGGCCGACCTTGATGGGCCTCCGGGAGCTGGCAAGCAGGGCATCCCGCAGCCGCTGTCGGGTCCGTGCCGGCGAGGATGGCTCCGGGGCGCCGCCGCCTCCCGCCGCCTGCAGCAGCGACGCGGGTCCCAACCAGAAACCCGCACAGGCGACGACGACCCGCACCGGCTTCTGCAGCAGCTAGTGCTCTCTGGAAACCTCATCAAGGAGGCCGTGCGAAGGCTTCATTCGCGACGGCTGCAGTTACGTGCAAAGCTTCCCCAACGCCCGCTCCTGGGACCTCTGTCGGCCCCGGTGCATGAACCCCCTTCGCCTCGCAGCCCTCGCGCGGCCTGCAGTGACCCTGGCGCCTCCGGGAGGGCGCAGCTCAGAACTGGCGACGGCGTTCTTGTGCCTGGCAGCTAACACGCCCGGGGTGGCCACAGCGCCAGCCTCAGACTGGAGGGCAAGGGGTTCCCTTGAGGGCTGCAGTTCTACTCAGGCTGGTGGAGAACTCTGGCTTTTGGAAGCGAGAGTAAAAAGCTAATGACGAGGAACCGAAAAATCGCGAGTGTTTCGCGGGTAACTGGGGTTGAGGGCCAAAATATTTGGAATGAAGGACTTTGGCCCTATTTAAGGCAGATTTTACAGAGCGCACCTCAAACGTACAAGTCAGTAGGACTCCTTATTTGGCGTGACCCGACCTGGCCGCGGAGCCTGCATTTCCTCGCAGCCTCTCAGTGCCCTCCAGCCCCGCGACCATGTGGCCACAATCCACGCTTCTCCGGATCGCGGTGCGCCGGAACCACGGAGGATGATGCCAGTTACTTGCTTTACCTTTTCAGGGCTGGCTCCTGATCCACTTTGGGGGAGGAGAACATGAGTAGATAATTTCAGGGTGCAGCCCAATCTGCCAGACTTAAAAAAACCATCTTGTGTCTTTGGAGGTGCTGCTTAATACCAAACATGCGGTGCCATGAAGGGACCCTTTGGGGGTTGAATAGGAGTTAACCCCTGCGCTCTCTTTGCAACTGTCTCTCTTCTCAGAGTGGTGGGGGAAGGCTGTACGACACGGGTGGGGAAAGGAGGTGGGGGCGGGGAGTATTGAATGGTGGTGGAAGGGTAGAGAGGCGCGGAGTGAACCCCACGCCCTGTCTAAAGTGTATTTTCAGAGCCGGCCCGCCTCTCCTCGGTTCAAGGTCACTGTTTCCTGGGCACGCACTGGGTTGCGGGACAGAGTAGCCAGGTTCTGCCGGTGCTCGGAGAAGAGCGCAGTGTTTTGCAAGTGCTGGAGTCTCCTGAGGACACGCGCGTCGCCGCCACCGCGGGTGTGGGAAAGCGCGGACGTGCTGGGCGGCTGTGCTTCGGTAGGCGACCACCGCCCCTGGCCGCGCTCCGGGCTTTCACGGAAACTCCCGAGACCGGGCCCTGGGTTCCTCCTCTCCTACTCGGCTCTGCAGTCCTACTCAAGCGGGTGGCTCTGGGATCCTGGGGGCCTGGGTTGGGGGCTAGGGAGACGCCATGTGATGGACACTCCAGGGACACACAGCCTAGCACAGCAGCTTATAATGGGCTCTCCGGGGCCATTTGCAATAACAGCTGCAATTCCCTGGATAGACGAGTTGATTTCCTCCCTCTGCCCCTCCCCCAGCCATGCCAGCTGGCCTTTGTAAGTGCAGGAAACCGAGTAGAAAATGTGACCCTCCAAATGGAGAAGCTGCAGGCTTTGCCATTGTGAACCATGGTGAAGTGCTTGGAACATACTGTTCACTCACTCTAAAGGCGCTGAGACTGTGCTGTTGTTCTCGTTTTTATAGTCAATGGCTTGTTCATCATCCAGATGTGGCTACTGACATATCTACACTTCGCACCGGAGTGTCTGGAATTGTGGCTATCCTGATTATAGGATTTTAACTTAACTGAAATGCCTGCTTTGAATAAATGTGTTGGGTTTTTTGTTTGGTTTTATTTTATACTTGCCATCAGTGAAAAAGATGTACAGAACACATTTCTCTGATCTCCATAAACATGAAAACACTTGAAATCTC"}
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneSeq?gene=10&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+---------------->>>> genInfo endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneInfo?gene=FRAT1&json=1
+
+* OUTPUT:
+{"id": "ENSG00000165879", "start": 97319271, "end": 97321915, "lenght": 2644}
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneInfo?gene=11&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+---------------->>>> geneCalc endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneCalc?gene=FRAT1&json=1
+
+* OUTPUT:
+{"lenght": 2645, "percA": 18.0, "percT": 19.7, "percG": 32.1, "percC": 30.2}
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneCalc?gene=10&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+
+---------------->>>> geneList endpoint
+
+* TEST 1
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=7&start=3&end=30000&json=1
+
+* OUTPUT:
+
+[{"external_name": "AC215522.3", "start": "12704", "end": "27234"}, {"external_name": "AC215522.2", "start": "19018", "end": "35489"}]
+
+
+* TEST 2
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=&start=3&end=30000&json=1
+
+* OUTPUT:
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>
+
+
+* TEST 3
+---------
+
+* INPUT:
+http://127.0.0.1:8080/geneList?chromo=hi&start=&end=30&json=1
+
+* OUTPUT:
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Error</title>
+    </head>
+    <body style ='background-color: red'>
+        <h1>ERROR</h1>
+    <h3>DATA ERROR SERVER</h3>
+    <p>The data you have entered does not exist in the Ensembl.</p>
+    <p> <a href=http://127.0.0.1:8080/>Main Page</a></p>
+    </body>
+</html>

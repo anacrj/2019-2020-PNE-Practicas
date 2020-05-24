@@ -11,48 +11,47 @@ PORT = 8080
 # -- Class with our Handler. It is a called derived from BaseHTTPRequestHandler.
 # -- It means that our class inheritates all his methods and properties
 
-
 class TestHandler(http.server.BaseHTTPRequestHandler):
     # Function used to implement JSON (treats any type of parameter that can have an endpoint)
+
     def dictionary_split(self, path):
         dictionary = dict()
-        if '?' in self.path:  # Check if the path has at least one variable (argument)
-            dicc = self.path.split("?")[1]
-            dicc = dicc.split(" ")[0]
+        dicc = self.path.split("?")        # The path has at least one variable (argument)
+        if len(dicc) > 1:
+            args = dicc[1]
+            dicc = args.split(" ")[0]
             parts = dicc.split("&")
+
             for couple in parts:
                 if '=' in couple:
-                    key = couple.split("=")[0]
-                    value = couple.split("=")[1]
-                    dictionary[key] = value  # Associate a value to each key
+                    aux = couple.split("=")
+                    key = aux[0]
+                    value = aux[1]
+                    dictionary[key] = value             # Associate a value to each key
         return dictionary
 
-    def do_GET(self):  # This method is called when the client invokes the GETmethod in the HTT Protocol request
-        response_code = 200  # Indicates what happened with the request
+    def do_GET(self):          # This method is called when the client invokes the GETmethod in the HTT Protocol request
+        response_code = 200    # Indicates what happened with the request
         json_response = False  # Response only in HTML at the moment
-
-        # Print the request line
-        termcolor.cprint(self.requestline, 'green')
 
         if self.path == "/":
             with open("index.html", "r") as f:
                 contents = f.read()
+            f.close()
+
         elif "listSpecies" in self.path:
             dicc = self.dictionary_split(self.path)
+            limit = 0
             if 'limit' in dicc:
                 try:
                     limit = int(dicc['limit'])
                 except:
                     limit = 0
-            else:
-                limit = 0
 
-            conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+            conn = http.client.HTTPConnection('rest.ensembl.org')                 # Connection with Enssembl
             conn.request("GET", "/info/species?content-type=application/json")
-            r1 = conn.getresponse()  # Get the response
-
-            text_json = r1.read().decode(
-                "utf-8")  # Decode the response in utf-8 format (admit all characters in the response)
+            r1 = conn.getresponse()                                               # Get the response
+            text_json = r1.read().decode("utf-8")                 # Decode the response in utf-8 format (admit all characters in the response)
             response = json.loads(text_json)
             print(response)
 
@@ -61,8 +60,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 json_response = True
                 if limit == 0:
                     limit = len(species)
-                final_list = species[1:limit]  # List from the first specie until the one that corresponds to the limit
-                contents = json.dumps(final_list)  # json.dumps is for transforming newlist into JSON (JSON response)
+                final_list = species[1:limit]      # List from the first specie until the one that corresponds to the limit
+                contents = json.dumps(final_list)  # json.dumps is for transforming final_list into JSON (JSON response)
             else:
                 if limit == 0:
                     limit = len(species)
@@ -70,50 +69,60 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 # HTML response
                 contents = """ 
                                         <html>
+                                        <head>
+                                          <meta charset="utf-8">
+                                          <title>Species in genome database</title>
+                                        </head>
                                         <body style ="background-color: lightgrey;">
+                                        <h3>List with the species available in the database:</h3>
                                         <ol> """
 
                 # List with the name of all species
                 cont = 0
                 for specie in species:
-                    contents = contents + "<li>" + specie['display_name'] + "</li>"
                     cont = cont + 1
-                    if cont == limit:  # The loop will not concatenate more species when it reaches the limit
-                        break
-
+                    if cont <= limit:                             # The loop will not concatenate more species when it reaches the limit
+                        contents = contents + "<li>" + specie['display_name'] + "</li>"
                 contents = contents + """<ol>
                                         <body>
                                         <html>
                                         """
-
             conn.close()
 
         elif "karyotype" in self.path:
             dicc = self.dictionary_split(self.path)
             if 'specie' in dicc and dicc['specie'] != '':
                 specie = dicc['specie']
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')              # Connection with Enssembl
                 conn.request("GET", "/info/assembly/" + specie + "?content-type=application/json")
-                r1 = conn.getresponse()  # Get the response
-                text_json = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(text_json)  # Transform JSON into a Python value (to read JSON response)
+                r1 = conn.getresponse()                                            # Get the response
+                text_json = r1.read().decode("utf-8")                              # Decode the response in utf-8 format
+                response = json.loads(text_json)                                   # Transform JSON into a Python value (to read JSON response)
+
                 # Enter in the karyotype key
                 if 'karyotype' in response:
-                    list_chromo = response['karyotype']  # List with all genes
+                    list_chromo = response['karyotype']                            # List with all genes
                     if 'json' in dicc and dicc['json'] == '1':
                         json_response = True
-                        contents = json.dumps(list_chromo)  # Transform list_chromo into JSON (JSON response)
+                        contents = json.dumps(list_chromo)             # Transform list_chromo into JSON (JSON response)
                     else:
+
                         # HTML response
                         contents = """
                                     <html>
+                                    <head>
+                                      <meta charset="utf-8">
+                                      <title>Information karyotype</title>
+                                    </head>
                                     <body style ="background-color: lightblue;">
+                                    <h2>Information about the karyotype of the chosen specie:</h2>
                                     <ul> """
 
                         for chromo in list_chromo:
-                            contents = contents + "<li>" + chromo + "</li>"  # List with elements from list_chromo
+                            new_chromo = "<li>" + chromo + "</li>"
+                            contents = contents + new_chromo          # List with elements from list_chromo
 
-                        contents = contents + """</ul>
+                        contents += """</ul>
                                     </body>
                                     </html>
                                     """
@@ -133,14 +142,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             if 'chromo' in dicc and 'specie' in dicc and dicc['chromo'] != '' and dicc['specie'] != '':
                 chromo1 = dicc['chromo']
                 specie = dicc['specie']
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')                        # Connection with Enssembl
                 conn.request("GET", "/info/assembly/" + specie + "?content-type=application/json")
-                r1 = conn.getresponse()  # Get the response
-                text_json = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(text_json)  # Transform JSON into a Python value (to read JSON response)
-                # Enter into the key top_level_region to obtain the length of the chromosome
-                info = response['top_level_region']  # List to save all the chromosomes
+                r1 = conn.getresponse()                                                      # Get the response
+                text_json = r1.read().decode("utf-8")                                        # Decode the response in utf-8 format
+                response = json.loads(text_json)                                             # Transform JSON into a Python value (to read JSON response)
 
+                # Enter into the key top_level_region to obtain the length of the chromosome
+                info = response['top_level_region']                                          # List to save all the chromosomes
                 if 'json' in dicc and dicc['json'] == '1':
                     json_response = True
                     long = 0
@@ -149,20 +158,25 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             long = element['length']
                     dic = dict()
                     dic['len'] = long
-                    contents = json.dumps(dic)  # Transform dic into JSON (JSON response)
+                    contents = json.dumps(dic)                                 # Transform dic into JSON (JSON response)
                 else:
                     long = 0
                     for element in info:
                         if element['name'] == chromo1:
                             long = element['length']
+
                     # HTML response
                     contents = """
                                            <html>
+                                           <head>
+                                             <meta charset="utf-8">
+                                             <title>Length of the chromosome</title>
+                                           </head>
                                            <body style ="background-color: lightyellow;">
+                                           <h3>The length of the chromosome is:</h3>
                                            <ul> """
 
                     contents = contents + "<li>" + str(long) + "</li>"
-
                     contents = contents + """</ul>
                                             </body>
                                             </html>"""
@@ -176,15 +190,15 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             dicc = self.dictionary_split(self.path)
             if 'gene' in dicc and dicc['gene'] != '':
                 gene = dicc['gene']
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')                             # Connection with Enssembl
                 conn.request("GET", "/homology/symbol/human/" + gene + "?content-type=application/json")
-                r1 = conn.getresponse()  # Get the response
-                raw_data = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(raw_data)  # Transform JSON into a Python value (to read JSON response)
-
+                r1 = conn.getresponse()                                                           # Get the response
+                raw_data = r1.read().decode("utf-8")                                              # Decode the response in utf-8 format
+                response = json.loads(raw_data)                                                   # Transform JSON into a Python value (to read JSON response)
                 try:
-                    id = response['data'][0]['id']  # Get the id of the data
-                    conn.request("GET", "/sequence/id/" + id + "?content-type=application/json")
+                    id = response['data'][0]['id']                                               # Get the id of the data
+                    url ="/sequence/id/" + id + "?content-type=application/json"
+                    conn.request("GET", url)
                     r1 = conn.getresponse()
                     text_json = r1.read().decode("utf-8")
                     response = json.loads(text_json)
@@ -194,23 +208,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         json_response = True
                         dic = dict()
                         dic['seq'] = cadena
-                        contents = json.dumps(dic)  # Transform dic into JSON (JSON response)
+                        contents = json.dumps(dic)                                            # Transform dic into JSON (JSON response)
                     else:
+
                         # HTML response
                         contents = """
                                                            <html>
                                                            <head>
                                                              <meta charset="utf-8">
-
-                                                             <title>Gene requested</title>
+                                                             <title>Sequence of the gene</title>
                                                            </head>
                                                            <body style ="background-color: lightgreen;">
                                                            <font face="garamond"  color = "black"</font>
-                                                           <h2>-->Here we have the information about the gene requested:</h2>
+                                                           <h2>This is the sequence of the human gene requested:</h2>
                                                            <ul> """
-
-                        contents = contents + "<ul>" + cadena + "<ul>"
-                        contents = contents + """</ul>
+                        contents += "<ul>"
+                        contents += cadena + "<ul>"
+                        contents += """</ul>
                                                             </body>
                                                             </html>"""
                 except KeyError:
@@ -226,18 +240,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         elif "geneList" in self.path:
             dicc = self.dictionary_split(self.path)
-            if 'start' in dicc and 'chromo' in dicc and 'end' in dicc and dicc['start'] != '' and dicc[
-                'chromo'] != '' and dicc['end'] != '':
+            if 'start' in dicc and 'chromo' in dicc and 'end' in dicc and dicc['start'] != '' and dicc['chromo'] != '' and dicc['end'] != '':
                 start = dicc['start']
                 chromo = dicc['chromo']
                 end = dicc['end']
-
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')                                          # Connection with Enssembl
                 conn.request("GET", "/overlap/region/human/" + str(chromo) + ":" + str(start) + "-" + str(
                     end) + "?content-type=application/json;feature=gene")
-                r1 = conn.getresponse()  # Get the response
-                data1 = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(data1)  # Transform JSON into a Python value (to read JSON response)
+                r1 = conn.getresponse()                                                                        # Get the response
+                data1 = r1.read().decode("utf-8")                                                              # Decode the response in utf-8 format
+                response = json.loads(data1)                                                                   # Transform JSON into a Python value (to read JSON response)
+
                 if 'error' in response:
                     response_code = 404
                     f = open('error.html', 'r')
@@ -252,30 +265,27 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             dic['external_name'] = item['external_name']
                             dic['start'] = str(item['start'])
                             dic['end'] = str(item['end'])
-                            lista.append(dic)  # Create a list with those elements
-                        contents = json.dumps(
-                            lista)  # Transform lista into JSON (JSON response) (to read JSON response)
+                            lista.append(dic)                                                             # Create a list with those elements
+                        contents = json.dumps(lista)                                                      # Transform lista into JSON (JSON response) (to read JSON response)
                     else:
                         print(response)
+
                         # HTML response
                         contents = """
                                                           <html>
                                                           <head>
                                                             <meta charset="utf-8">
-
                                                             <title>Gene information</title>
                                                           </head>
                                                           <body style ="background-color: lightgrey;">
                                                           <font face="garamond"  color = "black"</font>
-                                                          <h2>Name, start and end of the gene sequence:</h2>
+                                                          <h2>Name, start and end of the genes located in the desired chromosome:</h2>
                                                           <ul> """
                         for item in response:
-                            contents = contents + "<li>" + item['external_name'] + " Start: " + str(
-                                item['start']) + " End: " + str(item['end']) + "</li>"
+                            contents = contents + "<li>" + item['external_name'] + " Start: " + str(item['start']) + " End: " + str(item['end']) + "</li>"
                         contents = contents + """</ul>
                                                           </body>
                                                           </html>"""
-
             else:
                 response_code = 404
                 f = open('error.html', 'r')
@@ -286,15 +296,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             dicc = self.dictionary_split(self.path)
             if 'gene' in dicc and dicc['gene'] != '':
                 gene = dicc['gene']
-
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')                                    # Connection with Enssembl
                 conn.request("GET", "/homology/symbol/human/" + gene + "?content-type=application/json")
-                r1 = conn.getresponse()  # Get the response
-                raw_data = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(raw_data)  # Transform JSON into a Python value (to read JSON response)
+                r1 = conn.getresponse()                                                                  # Get the response
+                raw_data = r1.read().decode("utf-8")                                                     # Decode the response in utf-8 format
+                response = json.loads(raw_data)                                                          # Transform JSON into a Python value (to read JSON response)
                 try:
-                    id = response['data'][0]['id']  # Get the id of the data
-
+                    id = response['data'][0]['id']                                                       # Get the id of the data
                     conn.request("GET", "/overlap/id/" + id + "?feature=gene;content-type=application/json")
                     r1 = conn.getresponse()
                     raw_data = r1.read().decode("utf-8")
@@ -314,17 +322,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         dic['lenght'] = lenght
                         contents = json.dumps(dic)
                     else:
+
                         # HTML response
                         contents = """
                                                                         <html>
                                                                         <head>
                                                                           <meta charset="utf-8">
-
-                                                                          <title>Gene information</title>
+                                                                          <title>Human gene information</title>
                                                                         </head>
                                                                         <body style ="background-color: lightyellow;">
-                                                                       <font face="garamond" size= 5 color = "black"</font>
-                                                                       <h3>-Information about the gene requested:</h3>
+                                                                       <font face="garamond" size = 5 color = "black"</font>
+                                                                       <h3>Information about the human gene requested:</h3>
                                                                        <ul> """
 
                         contents = contents + "<h4>Id: <h4>" "<li>" + id + "</li>"
@@ -346,17 +354,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 contents = f.read()
                 f.close()
 
-        elif "geneCal" in self.path:
+        elif "geneCalc" in self.path:
             dicc = self.dictionary_split(self.path)
             if 'gene' in dicc and dicc['gene'] != '':
                 gene = dicc['gene']
-                conn = http.client.HTTPConnection('rest.ensembl.org')  # Connection with Enssembl
+                conn = http.client.HTTPConnection('rest.ensembl.org')                                    # Connection with Enssembl
                 conn.request("GET", "/homology/symbol/human/" + gene + "?content-type=application/json")
-                r1 = conn.getresponse()  # Get the response
-                raw_data = r1.read().decode("utf-8")  # Decode the response in utf-8 format
-                response = json.loads(raw_data)  # Transform JSON into a Python value (to read JSON response)
+                r1 = conn.getresponse()                                                                  # Get the response
+                raw_data = r1.read().decode("utf-8")                                                     # Decode the response in utf-8 format
+                response = json.loads(raw_data)                                                          # Transform JSON into a Python value (to read JSON response)
                 try:
-                    id = response['data'][0]['id']  # Get the id of the data
+                    id = response['data'][0]['id']                                                       # Get the id of the data
                     conn.request("GET", "/sequence/id/" + id + "?content-type=application/json")
                     r1 = conn.getresponse()
                     text_json = r1.read().decode("utf-8")
@@ -369,6 +377,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     percT = s1.perc('T')
                     percG = s1.perc('G')
                     percC = s1.perc('C')
+
                     if 'json' in dicc and dicc['json'] == '1':
                         json_response = True
                         dic = dict()
@@ -379,17 +388,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         dic['percC'] = percC
                         contents = json.dumps(dic)
                     else:
+
                         # HTML contents
                         contents = """
                                                                                  <html>
                                                                                 <head>
                                                                                   <meta charset="utf-8">
-
-                                                                                  <title>Gene information</title>
+                                                                                  <title>Calculations</title>
                                                                                 </head>
                                                                                 <body style ="background-color: lightgreen;">
-                                                                                <font face="garamond" size= 5 color = "black"</font>
-                                                                                <h2>Calculations about the Gene Sequence:</h2>
+                                                                                <font face="garamond" size = 5 color = "black"</font>
+                                                                                <h2>Calculations about the human gene:</h2>
                                                                                  <ul> """
 
                         contents = contents + "<h3>Lenght: <h4>" "<li>" + str(total) + "</li>"
@@ -408,7 +417,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 response_code = 400
                 with open("error.html", "r") as f:
                     contents = f.read()
-
         else:
             response_code = 404
             with open("error.html", "r") as f:
@@ -416,7 +424,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         # -- Generating the response message
         self.send_response(response_code)
-        if (json_response == True):  # Define the content-type header
+        if (json_response == True):                               # Define the content-type header
             self.send_header('Content-Type', 'application/json')
         else:
             self.send_header('Content-Type', 'text/html')
@@ -437,7 +445,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 # ------------------------
 # -- Set the new handler
 Handler = TestHandler
-socketserver.TCPServer.allow_reuse_address = True  # For preventing the error: "Port already in use"
+socketserver.TCPServer.allow_reuse_address = True     # For preventing the error: "Port already in use"
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
