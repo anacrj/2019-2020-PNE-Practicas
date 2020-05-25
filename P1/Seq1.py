@@ -58,8 +58,8 @@ class Seq:
             comp_sequence = comp_sequence + dictionary[element]
         return comp_sequence
 
-    def perc (self,base):
-        return round((float(self.count(base))/float(self.len())) * 100, 1)
+    def perc(self, base):
+        return round((float(self.count_base(base))/float(self.len())) * 100, 1)
 
     def read_fasta(self, filename):
         file_contents = Path(filename).read_text()
