@@ -449,7 +449,7 @@ socketserver.TCPServer.allow_reuse_address = True     # For preventing the error
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("Serving at PORT", PORT)
+    termcolor.cprint(f"Serving at PORT {PORT}", "yellow")
 
     # -- Main loop: Attend the client. Whenever there is a new
     # -- clint, the handler is called
